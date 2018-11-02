@@ -48,6 +48,8 @@ import com.android.settings.Utils;
 
 public class MiscExtensions extends SettingsPreferenceFragment implements OnPreferenceChangeListener {
 
+    private ListPreference mQuickPulldown;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +59,11 @@ public class MiscExtensions extends SettingsPreferenceFragment implements OnPref
         final ContentResolver resolver = getActivity().getContentResolver();
         final PreferenceScreen prefSet = getPreferenceScreen();
 
+        int value = Settings.System.getIntForUser(resolver,
+                     Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN, 0, UserHandle.USER_CURRENT);
+        mQuickPulldown = (ListPreference) findPreference("status_bar_quick_qs_pulldown");
+        mQuickPulldown.setValue(String.valueOf(value));
+        mQuickPulldown.setOnPreferenceChangeListener(this);
     }
 
     @Override
@@ -70,7 +77,19 @@ public class MiscExtensions extends SettingsPreferenceFragment implements OnPref
     }
 
     @Override
-    public boolean onPreferenceChange(Preference preference, Object objValue) {
+    public boolean onPreferenceChange(Preference preference, Object newValue) {
+        ContentResolver resolver = getActivity().getContentResolver();
+        
+        if (preference == mQuickPulldown) {
+            int value = Integer.parseInt((String) newValue);
+            Settings.System.putIntForUser(resolver,
+                    Settings.System.STATUS_BAR_QUICK_QS_PULLDOWN, value,
+                    UserHandle.USER_CURRENT);
+            int index = mQuickPulldown.findIndexOfValue((String) newValue);
+            mQuickPulldown.setSummary(
+                    mQuickPulldown.getEntries()[index]);
+            return true;
+        }
         return false;
     }
 }

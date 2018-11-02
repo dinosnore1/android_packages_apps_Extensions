@@ -42,6 +42,7 @@
     <string name="icon_title">Icon</string>
     <string name="color_title">Color</string>
     <string name="colors_title">Colors</string>
+    <string name="qs_category">Quick Settings</string>
 
     <!-- Extensions categories -->
     <string name="recents_category">Recents</string>
@@ -307,5 +308,12 @@
     <!-- Data disabled icon -->
     <string name="data_disabled_icon_title">Show data disabled icon</string>
     <string name="data_disabled_icon_summary">Display the cross sign next to signal bar when data is disabled</string>
+
+    <!-- Status bar quick pulldown -->
+    <string name="status_bar_quick_qs_pulldown">Quick QS pulldown</string>
+    <string name="quick_pulldown_none">Disabled</string>
+    <string name="quick_pulldown_right">Pulldown statusbar from right side</string>
+    <string name="quick_pulldown_left">Pulldown statusbar from left side</string>
+    <string name="status_bar_quick_qs_pulldown_summary">Automatically expand Quick Settings when pulling from the side of the screen</string>
 
 </resources>
