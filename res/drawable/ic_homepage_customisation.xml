@@ -19,8 +19,8 @@
     <item>
         <shape android:shape="oval">
             <gradient 
-                android:startColor="@*android:color/primary_accent"
-                android:endColor="@*android:color/secondary_accent"
+                android:startColor="?android:attr/colorGradientStart"
+                android:endColor="?android:attr/colorGradientEnd"
                 android:angle="45"/>
             <size
                 android:width="@dimen/dashboard_tile_image_size"
