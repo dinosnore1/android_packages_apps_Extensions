@@ -17,18 +17,6 @@
     android:title="@string/misc_extensions_title">
 
     <PreferenceCategory
-        android:key="misc_extensions_icons_category"
-        android:title="@string/icons_category">
-
-     <org.aospextended.extensions.preference.SystemSettingSwitchPreference
-        android:key="volte_icon"
-        android:title="@string/volte_icon_title"
-        android:summary="@string/volte_icon_summary"
-        android:defaultValue="true"/>
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
         android:key="misc_extensions_gestures_category"
         android:title="@string/gestures_category">
 
@@ -39,5 +27,6 @@
         android:defaultValue="true" />
 
     </PreferenceCategory>
-     
+
+
 </PreferenceScreen>
