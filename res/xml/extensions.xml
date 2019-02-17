@@ -37,13 +37,6 @@
     android:fragment="org.aospextended.extensions.categories.Navigation"/>
 
 <org.aospextended.extensions.preference.CardviewPreference
-    android:key="recents_category"
-    android:icon="@drawable/ic_recents_category"
-    android:title="@string/recents_category"
-    android:summary="@string/recents_category_summary"
-    android:fragment="org.aospextended.extensions.categories.Recents"/>
-
-<org.aospextended.extensions.preference.CardviewPreference
     android:key="lockscreen_category"
     android:icon="@drawable/ic_lockscreen_category"
     android:title="@string/lockscreen_category"
