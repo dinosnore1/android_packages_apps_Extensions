@@ -53,7 +53,7 @@
          <org.aospextended.extensions.preference.SystemSettingSwitchPreference
             android:key="powermenu_lockdown"
             android:title="@string/powermenu_lockdown"
-            android:defaultValue="true" />
+            android:defaultValue="false" />
 
          <SwitchPreference
             android:key="powermenu_users"
