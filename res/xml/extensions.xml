@@ -43,11 +43,4 @@
     android:summary="@string/lockscreen_category_summary"
     android:fragment="org.aospextended.extensions.categories.Lockscreen"/>
 
-<org.aospextended.extensions.preference.CardviewPreference
-    android:key="system_category"
-    android:icon="@drawable/ic_system_category"
-    android:title="@string/system_category"
-    android:summary="@string/system_category_summary"
-    android:fragment="org.aospextended.extensions.categories.System"/>
-
 </PreferenceScreen>
