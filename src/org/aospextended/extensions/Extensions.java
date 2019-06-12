@@ -58,38 +58,16 @@ import java.util.ArrayList;
 import java.util.List;
 import android.text.TextUtils;
 
-import org.aospextended.extensions.aexstats.Constants;
-import org.aospextended.extensions.aexstats.RequestInterface;
-import org.aospextended.extensions.aexstats.models.ServerRequest;
-import org.aospextended.extensions.aexstats.models.ServerResponse;
-import org.aospextended.extensions.aexstats.models.StatsData;
-
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
-import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
-import retrofit2.converter.gson.GsonConverterFactory;
-
 public class Extensions extends SettingsPreferenceFragment implements   
        Preference.OnPreferenceChangeListener {
 
     private static final int MENU_HELP  = 0;
-    private SharedPreferences pref;
-    private CompositeDisposable mCompositeDisposable;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         addPreferencesFromResource(R.xml.extensions);
         setHasOptionsMenu(true);
-        ContentResolver resolver = getActivity().getContentResolver();
-        mCompositeDisposable = new CompositeDisposable();
-        pref = getActivity().getSharedPreferences("aexStatsPrefs", Context.MODE_PRIVATE);
-        if (!pref.getString(Constants.LAST_BUILD_DATE, "null").equals(SystemProperties.get(Constants.KEY_BUILD_DATE))
-                || pref.getBoolean(Constants.IS_FIRST_LAUNCH, true)) {
-            pushStats();
-        }
     }
 
     @Override
@@ -98,62 +76,9 @@ public class Extensions extends SettingsPreferenceFragment implements
         
     }
 
-    private void pushStats() {
-        //Anonymous Stats
-
-        if (!TextUtils.isEmpty(SystemProperties.get(Constants.KEY_DEVICE))) { //Push only if installed ROM is AEX
-            RequestInterface requestInterface = new Retrofit.Builder()
-                    .baseUrl(Constants.BASE_URL)
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .build().create(RequestInterface.class);
-
-            StatsData stats = new StatsData();
-            stats.setDevice(stats.getDevice());
-            stats.setModel(stats.getModel());
-            stats.setVersion(stats.getVersion());
-            stats.setBuildType(stats.getBuildType());
-            stats.setCountryCode(stats.getCountryCode(getActivity()));
-            stats.setBuildDate(stats.getBuildDate());
-            ServerRequest request = new ServerRequest();
-            request.setOperation(Constants.PUSH_OPERATION);
-            request.setStats(stats);
-            mCompositeDisposable.add(requestInterface.operation(request)
-                    .observeOn(AndroidSchedulers.mainThread(),false,100)
-                    .subscribeOn(Schedulers.io())
-                    .subscribe(this::handleResponse, this::handleError));
-        } else {
-            Log.d(Constants.TAG, "This ain't AEX!");
-        }
-
-    }
-
-    private void handleResponse(ServerResponse resp) {
-
-        if (resp.getResult().equals(Constants.SUCCESS)) {
-
-            SharedPreferences.Editor editor = pref.edit();
-            editor.putBoolean(Constants.IS_FIRST_LAUNCH, false);
-            editor.putString(Constants.LAST_BUILD_DATE, SystemProperties.get(Constants.KEY_BUILD_DATE));
-            editor.apply();
-            Log.d(Constants.TAG, "push successful");
-
-        } else {
-            Log.d(Constants.TAG, resp.getMessage());
-        }
-
-    }
-
-    private void handleError(Throwable error) {
-
-        Log.d(Constants.TAG, error.toString());
-
-    }
-
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCompositeDisposable.clear();
     }
 
     @Override
